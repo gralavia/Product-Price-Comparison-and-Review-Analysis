@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Recommendation</h1>
+    <div id="product-container">
+    </div>
+
+    <script>
+        fetch('product_data.json')
+            .then(response => response.json())
+            .then(data => {
+                const productContainer = document.getElementById('product-container');
+                data.forEach(product => {
+                    const productDiv = document.createElement('div');
+                    productDiv.classList.add('product');
+                    const productLink = document.createElement('a');
+                    productLink.href = product.cheaper_url;
+                    productLink.target = '_blank';
+                    const productImage = document.createElement('img');
+                    productImage.src = product.cheaper_product.image_url;
+                    productLink.appendChild(productImage);
+                    const productName = document.createElement('p');
+                    productName.textContent = product.cheaper_product.product_name;
+                    const productPrice = document.createElement('p');
+                    productPrice.textContent = product.cheaper_product.price;
+                    productDiv.appendChild(productLink);
+                    productDiv.appendChild(productName);
+                    productDiv.appendChild(productPrice);
+                    productContainer.appendChild(productDiv);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+</html>
